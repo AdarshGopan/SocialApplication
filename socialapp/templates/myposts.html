@@ -2,7 +2,7 @@
 {%block body_block%}
 
 {%for p in posts%}
-<div style="border: 3px solid rgb(149, 143, 143);padding: 20px;border-radius: 20px;" class="post-preview">
+<div style="background-color:white;border: 3px solid rgb(149, 143, 143);padding: 20px;border-radius: 20px;" class="post-preview">
     <a href="post.html">
         <p class="post-meta">
             <a style="color: red;margin-left: 500px;" href="{%url 'post-delete' p.id %}" class="material-icons">delete</a>
@@ -12,9 +12,11 @@
         <hr class="my-4" />
 
         <h2 class="post-title">{{p.post}}</h2>
-        <a href="{%url 'add-likes' p.id%}" class="btn btn-sm btn-info">{{p.likes.all.count}} &#10084;</a>
+        {%if p.image%}
+            <img style="height: 300px; width:500px;" src="{{p.image.url}}" alt="">
+        {%endif%}
+        <a href="{%url 'add-likes' p.id%}" class="mt-3 btn btn-sm btn-info">{{p.likes.all.count}} &#10084;</a>
 
-        {{p.image}}
     </a>
     <div>
         <p>

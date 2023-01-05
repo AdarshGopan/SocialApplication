@@ -2,13 +2,13 @@ from re import L
 from urllib import request
 from django.shortcuts import render,redirect
 from django.contrib.auth.models import User
-from socialapp.forms import RegistrationForm,LoginForm,PostsForm
+from socialapp.forms import RegistrationForm,LoginForm,PostsForm,UserProfileForm
 from django.views.generic import View,CreateView,FormView,ListView,TemplateView
 from django.contrib.auth import authenticate,login,logout
 
 from django.urls import reverse_lazy
 from django.contrib import messages
-from socialapp.models import Posts,Comments
+from socialapp.models import Posts,Comments,UserProfile
 from django.views.decorators.cache import never_cache
 from django.utils.decorators import method_decorator
 # Create your views here.
@@ -119,3 +119,20 @@ def post_delete(request,*args,**kwargs):
     Posts.objects.filter(id=pst_id).delete()
     messages.success(request,"POST DELETED SUCCESSFULLY")
     return redirect("myposts")
+
+class MyProfile(CreateView,ListView):
+    template_name: str="myprofile.html"
+    model=UserProfile
+    form_class=UserProfileForm
+    success_url=reverse_lazy("myprofile")
+    context_object_name="myprofile"
+
+    # def form_valid(self, form):
+    #     form.instance.user=self.request.user
+    #     return super().form_valid(form)
+    def form_valid(self, form):
+        form.instance.user=self.request.user
+        return super().form_valid(form)
+
+    def get_queryset(self):
+        return UserProfile.objects.filter(user=self.request.user)

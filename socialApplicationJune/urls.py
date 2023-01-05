@@ -16,6 +16,8 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from socialapp import views
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -29,5 +31,7 @@ urlpatterns = [
     path('social/logout',views.sign_out,name="signout"),
     path('social/posts/<int:id>/likes',views.post_likes,name="add-likes"),
     path('social/myposts/<int:id>/delete',views.post_delete,name="post-delete"),
+    path('social/myprofile/add',views.MyProfile.as_view(),name="myprofile"),
 
-]
+]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+  

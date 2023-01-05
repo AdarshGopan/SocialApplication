@@ -28,3 +28,10 @@ class Comments(models.Model):
 
     def __str__(self):
         return self.comment
+
+class UserProfile(models.Model):
+    user=models.OneToOneField(User,on_delete=models.CASCADE)
+    address=models.CharField(max_length=200)
+    dob=models.DateField()
+    pro_pic=models.ImageField(upload_to="images")
+    gender=models.CharField(max_length=100)

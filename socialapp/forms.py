@@ -3,7 +3,7 @@ from operator import attrgetter
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
-from socialapp.models import Posts
+from socialapp.models import Posts,UserProfile
 
 from django import forms
 
@@ -50,4 +50,21 @@ class PostsForm(forms.ModelForm):
         labels={
             "post":"POST",
             "image":"IMAGE",
+        }
+class UserProfileForm(forms.ModelForm):
+
+    class Meta:
+        model=UserProfile
+        fields=["address","dob","pro_pic","gender"]
+        widgets={
+            "address":forms.Textarea(attrs={"class":"form-control","rows":2}),
+            "dob":forms.DateInput(attrs={"class":"form-control"}),
+            "pro_pic":forms.FileInput(attrs={"class":"form-control"}),
+            "gender":forms.TextInput(attrs={"class":"form-control"}),
+        }
+        labels={
+            "address":"ADDRESS",
+            "dob":"DOB",
+            "pro_pic":"PROFILE PICTURE",
+            "gender":"GENDER",
         }
